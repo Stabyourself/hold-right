@@ -1,1 +1,2 @@
-# hold-right
+# Hold Right
+An experimental game

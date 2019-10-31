@@ -2,63 +2,90 @@ local Level = class("Level")
 
 local bump = require "lib.bump"
 local sti = require "lib.sti"
-local gamera = require "lib.gamera"
+local camera = require "lib.camera"
 local Player = require "class.Player"
+local Bullet = require "class.Bullet"
 
 function Level:initialize(path)
     self.world = bump.newWorld()
+    self.world.level = self -- I never know if this is good code
     self.map = sti(path, {"bump"})
     self.map:bump_init(self.world)
-    
-    self.camera = gamera.new(0, 0, 1000, 1000, 320, 180)
 
-    self.player = Player:new(self.world, 24, 24)
+    self.entities = {
+        bullets = {},
+        players = {},
+    }
+
+    local startX, startY
+
+    -- load objects
+    for _, object in ipairs(self.map.layers.markers.objects) do
+        local type = object.properties.type
+
+        if type == "start" then
+            startX = object.x+4
+            startY = object.y-8
+        end
+    end
+
+    table.insert(self.entities.players, Player:new(self.world, startX, startY))
+    self.camera = camera()
+    self.camera:lookAt(self.entities.players[1].x+self.entities.players[1].w/2, self.entities.players[1].y+self.entities.players[1].h/2)
+    self.camera:zoomTo(4)
 end
 
 function Level:update(dt)
-    -- CAMERA
-    local moveX, moveY = controls:get("camera")
+    -- PLAYER
+    for _, group in pairs(self.entities) do
+        for i = #group, 1, -1 do
+            group[i]:update(dt)
 
-    local camX, camY = self.camera:getPosition()
-    camX = camX + moveX
-    camY = camY + moveY
-
-    self.camera:setPosition(camX, camY)
-
-    local zoom = self.camera:getScale()
-    if controls:get('camzoomin') == 1 then
-        zoom = zoom*1.1
+            if group[i].delete then
+                self.world:remove(group[i])
+                table.remove(group, i)
+            end
+        end
     end
 
-    self.camera:setScale(zoom)
-
-    -- PLAYER
-    self.player:update(dt)
+    -- camera
+    self.camera:lockPosition(self.entities.players[1].x+self.entities.players[1].w/2, self.entities.players[1].y+self.entities.players[1].h/2, camera.smooth.damped(10))
 end
 
 function Level:draw()
-    local xOff = (self.camera.w2 + self.camera.l) - self.camera.x*self.camera.scale
-    local yOff = (self.camera.h2 + self.camera.t) - self.camera.y*self.camera.scale
+    self.camera:attach()
 
-    self.camera:draw(function()
-        self.map:draw(xOff, yOff, self.camera.scale, self.camera.scale)
+    self.map:drawLayer(self.map.layers.world)
 
-        -- debug
-        if true then
-            love.graphics.setColor(1, 0, 0)
-            love.graphics.push()
-            love.graphics.translate(0.5, 0.5)
-            
-            for _, item in ipairs(self.world:getItems()) do
-                love.graphics.rectangle("line", self.world:getRect(item))
-            end
+    for _, group in pairs(self.entities) do
+        for _, entity in ipairs(group) do
+            entity:draw()
+        end
+    end
+    self.entities.players[1]:draw()
 
-            love.graphics.pop()
-            love.graphics.setColor(1, 1, 1)
+    -- debug
+    if DEBUG then
+        self.map:drawLayer(self.map.layers.markers)
+        love.graphics.setColor(1, 0, 0)
+        love.graphics.push()
+        love.graphics.translate(0.5, 0.5)
+        
+        for _, item in ipairs(self.world:getItems()) do
+            love.graphics.rectangle("line", self.world:getRect(item))
         end
 
-        love.graphics.print("HUP!")
-    end)
+        love.graphics.pop()
+        love.graphics.setColor(1, 1, 1)
+    end
+
+    love.graphics.print("HUP!")
+
+    self.camera:detach()    
+end
+
+function Level:makeBullet(owner, x, y, vx, vy)
+    table.insert(self.entities.bullets, Bullet:new(self.world, owner, x, y, vx, vy))
 end
 
 return Level

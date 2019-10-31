@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="2019.10.18" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="100" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="14">
+<map version="1.2" tiledversion="2019.10.18" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="100" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="22">
  <editorsettings>
   <export target="level1.lua" format="lua"/>
  </editorsettings>
- <tileset firstgid="1" source="../img/tiles.tsx"/>
- <layer id="3" name="Tile Layer 1" width="100" height="100">
+ <tileset firstgid="1" source="../img/markers.tsx"/>
+ <tileset firstgid="2" source="../img/tiles.tsx"/>
+ <layer id="3" name="world" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eAHt3EEKgCAUBFC9/6WrxYePqLQwhXhCGDmovNlXSyn15XPHjI8Fni5mI3c1y1lbI5D7CPvezjnXW/dtjcDIue1mlFtzC7uEQLiP5pyLd/MZgbajM7dwKgECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQILBbwD+Idos7jwABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBA4E8CF0W5ACk=
+   eAHt0dEKhCAQBdBo//+ftx4EMYi62whLR5DKnLHOXZdlWSfO7SjjRGDPIhlXMkz6vr0mzePtblX/L48q2ayvPDK3qip5VMlmfeWRuVVVyaNKNusrj8ytqkoeVbJZX3lkblVV8qiSzfo+kcfeY5yfbW2fxj2BX/IYM2jP977A7l5gRh5y6sXP76/m0Uz7/f1afz+e2N6N656PAs1qxvV4uhUCBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAIF/F/gC0ggA4Q==
   </data>
  </layer>
- <objectgroup color="#00aa00" id="7" name="Spawns">
-  <object id="8" x="32" y="48" width="16" height="16"/>
- </objectgroup>
- <objectgroup id="8" name="Powerups">
-  <object id="13" gid="1" x="96" y="48" width="16" height="16"/>
+ <objectgroup color="#00aa00" id="7" name="markers">
+  <object id="21" gid="1" x="304" y="192" width="16" height="16">
+   <properties>
+    <property name="type" value="start"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

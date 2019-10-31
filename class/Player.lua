@@ -5,15 +5,20 @@ local runAccel      = 200 -- the player acceleration while going left/right
 local brakeAccel    = 500
 local maxSpeed = 100
 
+function Player.filter(item, other)
+    if other.properties and other.properties.platform and item.y + item.h > other.y then 
+        return false
+    end
+
+    return Entity.filter(item, other)
+end
+
 function Player:initialize(world, x, y)
-    Entity.initialize(self, world, x, y, 14, 14)
-    self.onGround = false
+    Entity.initialize(self, world, x, y, 8, 8)
 end
 
 function Player:update(dt)
-    self:gravity(dt)
-
-    -- movement  
+    -- left/right movement
     if controls:down("left") then
         self.vx = math.max(-maxSpeed, self.vx - dt * (self.vx > 0 and brakeAccel or runAccel))
     elseif controls:down("right") then
@@ -27,24 +32,34 @@ function Player:update(dt)
         end
     end
 
+    -- gravity
+    self:addGravity(dt)
+
     -- jumping
-    if self.onGround and controls:pressed("up") then
-        self.vy = -100
-        self.onGround = false
+    if self.onGround and controls:pressed("jump") then
+        self.vy = -120
     end
 
-    local future_x = self.x + self.vx * dt
-    local future_y = self.y + self.vy * dt
-  
-    local next_x, next_y, cols, len = self.world:move(self, future_x, future_y, self.filter)
-  
-    for i=1, len do
-      local col = cols[i]
-      self:collide(col.normal.x, col.normal.y, 0)
-    end
+    self.onGround = false
 
-    self.x = next_x
-    self.y = next_y
+    self:movementUpdate(dt)
+    
+    -- shoot shoot
+    if controls:pressed("shoot") then
+        self:shoot()
+    end
+end
+
+function Player:resolveCollision(other, nx, ny) -- also update onGround
+    Entity.resolveCollision(self, nx, ny)
+    
+    if ny < 0 then 
+        self.onGround = true
+    end
+end
+
+function Player:shoot()
+    self.world.level:makeBullet(self, self.x+self.w, self.y+2, 150, 0)
 end
 
 return Player

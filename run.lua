@@ -1,5 +1,3 @@
-local postScaler = require "lib.postScaler"
-
 function love.run()
 	if love.load then love.load(love.arg.parseGameArguments(arg), arg) end
  
@@ -33,9 +31,7 @@ function love.run()
 			love.graphics.origin()
 			love.graphics.clear(love.graphics.getBackgroundColor())
  
-            postScaler.preDraw()
 			if love.draw then love.draw() end
-            postScaler.postDraw()
  
 			love.graphics.present()
 		end

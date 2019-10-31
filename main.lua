@@ -1,5 +1,7 @@
 require "run"
+require "environment"
 class = require "lib.middleclass"
+inspect = function(v) print(require "lib.inspect"(v)) end -- good code
 
 local postScaler = require "lib.postScaler"
 local baton = require "lib.baton"
