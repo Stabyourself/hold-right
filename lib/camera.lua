@@ -37,12 +37,12 @@ function camera.smooth.none()
 	return function(dx,dy) return dx,dy end
 end
 
-function camera.smooth.linear(speed)
+function camera.smooth.linear(dt, speed)
 	assert(type(speed) == "number", "Invalid parameter: speed = "..tostring(speed))
 	return function(dx,dy, s)
 		-- normalize direction
 		local d = math.sqrt(dx*dx+dy*dy)
-		local dts = math.min((s or speed) * love.timer.getDelta(), d) -- prevent overshooting the goal
+		local dts = math.min((s or speed) * dt, d) -- prevent overshooting the goal
 		if d > 0 then
 			dx,dy = dx/d, dy/d
 		end
@@ -51,10 +51,10 @@ function camera.smooth.linear(speed)
 	end
 end
 
-function camera.smooth.damped(stiffness)
+function camera.smooth.damped(dt, stiffness)
 	assert(type(stiffness) == "number", "Invalid parameter: stiffness = "..tostring(stiffness))
 	return function(dx,dy, s)
-		local dts = love.timer.getDelta() * (s or stiffness)
+		local dts = dt * (s or stiffness)
 		return dx*dts, dy*dts
 	end
 end

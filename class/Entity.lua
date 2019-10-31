@@ -5,9 +5,10 @@ local DEFAULT_GRAVITY = 200
 function Entity.filter(item, other)
     local Bullet = require "class.Bullet"
     if other.isInstanceOf and other:isInstanceOf(Bullet) then -- is a bullet
-        if other.owner ~= item then -- can't shoot yourself
-            item:shotBy(other)
-        end
+        return false
+    end
+    
+    if other.properties and other.properties.platform and item.y + item.h > other.y then 
         return false
     end
 
@@ -60,7 +61,7 @@ function Entity:resolveCollision(nx, ny) -- default collision resolvement only s
 end
 
 function Entity:shotBy(bullet)
-    bullet.delete = true
+    
 end
 
 return Entity

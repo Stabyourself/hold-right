@@ -5,14 +5,6 @@ local runAccel      = 200 -- the player acceleration while going left/right
 local brakeAccel    = 500
 local maxSpeed = 100
 
-function Player.filter(item, other)
-    if other.properties and other.properties.platform and item.y + item.h > other.y then 
-        return false
-    end
-
-    return Entity.filter(item, other)
-end
-
 function Player:initialize(world, x, y)
     Entity.initialize(self, world, x, y, 8, 8)
 end

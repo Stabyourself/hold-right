@@ -49,7 +49,7 @@ function Level:update(dt)
     end
 
     -- camera
-    self.camera:lockPosition(self.entities.players[1].x+self.entities.players[1].w/2, self.entities.players[1].y+self.entities.players[1].h/2, camera.smooth.damped(10))
+    self.camera:lockPosition(self.entities.players[1].x+self.entities.players[1].w/2, self.entities.players[1].y+self.entities.players[1].h/2, camera.smooth.damped(dt, 10))
 end
 
 function Level:draw()
