@@ -1,3 +1,5 @@
+love.graphics.setDefaultFilter("nearest")
+
 require "run"
 require "environment"
 class = require "lib.middleclass"

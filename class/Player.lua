@@ -1,12 +1,31 @@
 local Entity = require "class.Entity"
+local Hand = require "class.Hand"
+local Peashooter = require "class.guns.Peashooter"
+
 local Player = class("Player", Entity)
 
-local runAccel      = 200 -- the player acceleration while going left/right
-local brakeAccel    = 500
+local img = love.graphics.newImage("img/player.png")
+
+local runAccel = 200
+local brakeAccel = 500
 local maxSpeed = 100
 
-function Player:initialize(world, x, y)
-    Entity.initialize(self, world, x, y, 8, 8)
+local w, h = 12, 12
+
+function Player:initialize(level, x, y)
+    Entity.initialize(self, level, x, y, w, h)
+
+    -- hands on hands on
+    self.hands = {}
+    for i = 1, 2 do
+        self.hands[i] = Hand:new(self)
+        self.hands[i]:equip(Peashooter:new())
+    end
+
+    self.hands[1].x = 8
+    self.hands[1].y = 3
+
+    self.hands[2].x = -1
 end
 
 function Player:update(dt)
@@ -51,7 +70,16 @@ function Player:resolveCollision(other, nx, ny) -- also update onGround
 end
 
 function Player:shoot()
-    self.world.level:makeBullet(self, self.x+self.w, self.y+2, 150, 0)
+    for i = 1, 2 do
+        self.hands[i]:shoot()
+    end
 end
+
+function Player:draw()
+    self.hands[1]:draw() -- left
+    love.graphics.draw(img, self.x, self.y)
+    self.hands[2]:draw() -- right
+end
+
 
 return Player

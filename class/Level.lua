@@ -29,7 +29,7 @@ function Level:initialize(path)
         end
     end
 
-    table.insert(self.entities.players, Player:new(self.world, startX, startY))
+    table.insert(self.entities.players, Player:new(self, startX, startY))
     self.camera = camera()
     self.camera:lookAt(self.entities.players[1].x+self.entities.players[1].w/2, self.entities.players[1].y+self.entities.players[1].h/2)
     self.camera:zoomTo(4)
@@ -85,7 +85,7 @@ function Level:draw()
 end
 
 function Level:makeBullet(owner, x, y, vx, vy)
-    table.insert(self.entities.bullets, Bullet:new(self.world, owner, x, y, vx, vy))
+    table.insert(self.entities.bullets, Bullet:new(self, owner, x, y, vx, vy))
 end
 
 return Level

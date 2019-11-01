@@ -15,8 +15,9 @@ function Entity.filter(item, other)
     return "slide"
 end
 
-function Entity:initialize(world, x, y, w, h)
-    self.world = world
+function Entity:initialize(level, x, y, w, h)
+    self.level = level
+    self.world = level.world
     self.x = x
     self.y = y
     self.w = w
@@ -25,7 +26,7 @@ function Entity:initialize(world, x, y, w, h)
     self.vx = 0
     self.vy = 0
 
-    world:add(self, x, y, w, h)
+    self.world:add(self, x, y, w, h)
 end
 
 function Entity:draw()
