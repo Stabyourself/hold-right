@@ -7,20 +7,27 @@ function Hand:initialize(player)
     self.player = player
 end
 
+function Hand:updateTransformation(transform)
+    self.transform = transform:clone()
+    self.transform:translate(self:getLocalPosition())
+end
+
 function Hand:getPosition()
     local x, y = self.player.x, self.player.y
 
     return x + self.x, y + self.y
 end
 
+function Hand:getLocalPosition()
+    return self.x, self.y
+end
+
 function Hand:draw()
-    local x, y = self:getPosition()
-
     if self.gun then
-        self.gun:draw(x, y)
+        self.gun:draw(self.transform)
+    else
+        love.graphics.rectangle("line", x+.5, y+.5, 2, 3)
     end
-
-    -- love.graphics.rectangle("line", x+.5, y+.5, 2, 3)
 end
 
 function Hand:shoot()

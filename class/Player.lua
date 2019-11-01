@@ -15,6 +15,8 @@ local w, h = 12, 12
 function Player:initialize(level, x, y)
     Entity.initialize(self, level, x, y, w, h)
 
+    self.dir = 1
+
     -- hands on hands on
     self.hands = {}
     for i = 1, 2 do
@@ -26,6 +28,8 @@ function Player:initialize(level, x, y)
     self.hands[1].y = 3
 
     self.hands[2].x = -1
+
+    self.transform = love.math.newTransform()
 end
 
 function Player:update(dt)
@@ -40,6 +44,16 @@ function Player:update(dt)
             self.vx = 0
         else
             self.vx = self.vx + brake
+        end
+    end
+
+    if self.onGround then -- allow turnaround
+        if controls:down("left") then
+            self.dir = -1
+        end
+
+        if controls:down("right") then
+            self.dir = 1
         end
     end
 
@@ -59,6 +73,18 @@ function Player:update(dt)
     if controls:pressed("shoot") then
         self:shoot()
     end
+
+
+    -- update transformation
+    self.transform:reset()
+    self.transform:translate(self.x, self.y)
+    self.transform:translate(self.w*0.5, 0)
+    self.transform:scale(self.dir, 1)
+    self.transform:translate(-self.w*0.5, 0)
+
+    for i = 1, 2 do
+        self.hands[i]:updateTransformation(self.transform)
+    end
 end
 
 function Player:resolveCollision(other, nx, ny) -- also update onGround
@@ -77,7 +103,7 @@ end
 
 function Player:draw()
     self.hands[1]:draw() -- left
-    love.graphics.draw(img, self.x, self.y)
+    love.graphics.draw(img, self.transform)
     self.hands[2]:draw() -- right
 end
 

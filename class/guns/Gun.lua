@@ -12,20 +12,18 @@ function Gun:initialize(hand)
 end
 
 function Gun:getPosition()
-    local x, y = self.hand:getPosition()
-
-    return x + self.barrelOffsetX, y + self.barrelOffsetY
+    return self.hand.transform:transformPoint(self.barrelOffsetX, self.barrelOffsetY)
 end
 
 function Gun:shoot()
     local x, y = self:getPosition()
 
-    self.hand.player.level:makeBullet(self.hand.player, x, y, 150, 0)
+    self.hand.player.level:makeBullet(self.hand.player, x, y, 150*self.hand.player.dir, 0)
 end
 
-function Gun:draw(x, y)
+function Gun:draw(transform)
     if self.img then
-        love.graphics.draw(self.img, x, y)
+        love.graphics.draw(self.img, transform)
     end
 end
 

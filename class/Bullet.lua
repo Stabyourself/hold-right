@@ -22,7 +22,7 @@ function Bullet:resolveCollision(other)
 end
 
 function Bullet:initialize(world, owner, x, y, vx, vy)
-    Entity.initialize(self, world, x, y, 4, 4)
+    Entity.initialize(self, world, x-2, y-2, 4, 4)
     self.owner = owner
 
     self.vx = vx
