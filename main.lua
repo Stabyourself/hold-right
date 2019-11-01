@@ -1,6 +1,7 @@
 love.graphics.setDefaultFilter("nearest")
 
 require "run"
+require "variables"
 require "environment"
 class = require "lib.middleclass"
 inspect = function(v) print(require "lib.inspect"(v)) end -- good code

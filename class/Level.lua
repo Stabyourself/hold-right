@@ -24,8 +24,8 @@ function Level:initialize(path)
         local type = object.properties.type
 
         if type == "start" then
-            startX = object.x+4
-            startY = object.y-8
+            startX = object.x+(16-PLAYERWIDTH)*0.5
+            startY = object.y-PLAYERHEIGHT
         end
     end
 
@@ -49,7 +49,15 @@ function Level:update(dt)
     end
 
     -- camera
-    self.camera:lockPosition(self.entities.players[1].x+self.entities.players[1].w/2, self.entities.players[1].y+self.entities.players[1].h/2, camera.smooth.damped(dt, 10))
+    self.camera:lockWindow(
+        self.entities.players[1].x+self.entities.players[1].w/2,
+        self.entities.players[1].y+self.entities.players[1].h/2,
+        love.graphics.getWidth()*0.5 - 100,
+        love.graphics.getWidth()*0.5 + 100,
+        love.graphics.getHeight()*0.5 - 50,
+        love.graphics.getHeight()*0.5 + 50,
+        camera.smooth.damped(dt, 10)
+    ) --todo: some kind of SMW camera thing maybe
 end
 
 function Level:draw()

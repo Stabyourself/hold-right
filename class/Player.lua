@@ -10,17 +10,15 @@ local runAccel = 200
 local brakeAccel = 500
 local maxSpeed = 100
 
-local w, h = 12, 12
-
 function Player:initialize(level, x, y)
-    Entity.initialize(self, level, x, y, w, h)
+    Entity.initialize(self, level, x, y, PLAYERWIDTH, PLAYERHEIGHT)
 
     self.dir = 1
 
     -- hands on hands on
     self.hands = {}
     for i = 1, 2 do
-        self.hands[i] = Hand:new(self)
+        self.hands[i] = Hand:new(self, i==2)
         self.hands[i]:equip(Peashooter:new())
     end
 
@@ -28,6 +26,9 @@ function Player:initialize(level, x, y)
     self.hands[1].y = 3
 
     self.hands[2].x = -1
+
+    self.walkcycleTimer = 0
+    self.walkcycle = 0
 
     self.transform = love.math.newTransform()
 end
@@ -74,6 +75,13 @@ function Player:update(dt)
         self:shoot()
     end
 
+    -- walk cycle animation
+    if self.onGround then
+        if self.vx ~= 0 then
+            self.walkcycleTimer = self.walkcycleTimer + dt*8
+            self.walkcycle = math.sin(self.walkcycleTimer)
+        end
+    end
 
     -- update transformation
     self.transform:reset()
@@ -83,7 +91,7 @@ function Player:update(dt)
     self.transform:translate(-self.w*0.5, 0)
 
     for i = 1, 2 do
-        self.hands[i]:updateTransformation(self.transform)
+        self.hands[i]:updateTransformation(self.transform, self.walkcycle)
     end
 end
 

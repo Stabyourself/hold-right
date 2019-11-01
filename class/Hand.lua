@@ -1,20 +1,35 @@
 local Hand = class("Hand")
 
-function Hand:initialize(player)
+function Hand:initialize(player, inverted)
     self.x = 5
     self.y = 4
     self.gun = false
     self.player = player
+    self.inverted = inverted
 
     self.rotation = 0
 end
 
-function Hand:updateTransformation(transform)
+function Hand:updateTransformation(transform, walkcycle)
     self.transform = transform:clone()
     self.transform:translate(self:getLocalPosition())
+
+    self.transform:translate(self:getWalkcycleOffset(walkcycle))
+
     self.transform:translate(self.gun.rotationOffsetX, self.gun.rotationOffsetY)
     self.transform:rotate(self.rotation)
     self.transform:translate(-self.gun.rotationOffsetX, -self.gun.rotationOffsetY)
+end
+
+function Hand:getWalkcycleOffset(walkcycle)
+    local x = walkcycle*2
+    local y = (1-math.abs(walkcycle))*1
+
+    if self.inverted then
+        x = -x
+    end
+
+    return x, y
 end
 
 function Hand:getPosition()

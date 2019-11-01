@@ -6,11 +6,7 @@ function Bullet.filter(item, other)
         return false
     end
 
-    if other.isInstanceOf and other:isInstanceOf(Bullet) then -- can't shoot other bullets (that'd be some matrix shit)
-        return false
-    end
-
-    return "slide"
+    return Entity.filter(item, other)
 end
 
 function Bullet:resolveCollision(other)
