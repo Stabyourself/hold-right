@@ -18,7 +18,12 @@ end
 function Gun:shoot()
     local x, y = self:getPosition()
 
-    self.hand.player.level:makeBullet(self.hand.player, x, y, 150*self.hand.player.dir, 0)
+    local speed = 150
+
+    local vx = math.cos(self.hand.rotation)*speed*self.hand.player.dir
+    local vy = math.sin(self.hand.rotation)*speed
+
+    self.hand.player.level:makeBullet(self.hand.player, x, y, vx, vy)
 end
 
 function Gun:draw(transform)

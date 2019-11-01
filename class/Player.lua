@@ -47,7 +47,7 @@ function Player:update(dt)
         end
     end
 
-    if self.onGround then -- allow turnaround
+    if self.onGround or TURNAROUNDMIDAIR then -- allow turnaround
         if controls:down("left") then
             self.dir = -1
         end

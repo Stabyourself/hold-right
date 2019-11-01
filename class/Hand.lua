@@ -5,11 +5,16 @@ function Hand:initialize(player)
     self.y = 4
     self.gun = false
     self.player = player
+
+    self.rotation = 0
 end
 
 function Hand:updateTransformation(transform)
     self.transform = transform:clone()
     self.transform:translate(self:getLocalPosition())
+    self.transform:translate(self.gun.rotationOffsetX, self.gun.rotationOffsetY)
+    self.transform:rotate(self.rotation)
+    self.transform:translate(-self.gun.rotationOffsetX, -self.gun.rotationOffsetY)
 end
 
 function Hand:getPosition()
