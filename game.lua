@@ -7,7 +7,7 @@ function game:init()
 end
 
 function game:enter(previous)
-    
+
 end
 
 function game:update(dt)

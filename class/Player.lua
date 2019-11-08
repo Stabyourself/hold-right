@@ -69,7 +69,7 @@ function Player:update(dt)
     self.onGround = false
 
     self:movementUpdate(dt)
-    
+
     -- shoot shoot
     if controls:pressed("shoot") then
         self:shoot()
@@ -97,8 +97,8 @@ end
 
 function Player:resolveCollision(other, nx, ny) -- also update onGround
     Entity.resolveCollision(self, nx, ny)
-    
-    if ny < 0 then 
+
+    if ny < 0 then
         self.onGround = true
     end
 end

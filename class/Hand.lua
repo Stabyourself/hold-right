@@ -46,7 +46,7 @@ function Hand:draw()
     if self.gun then
         self.gun:draw(self.transform)
     else
-        love.graphics.rectangle("line", x+.5, y+.5, 2, 3)
+        love.graphics.rectangle("line", self.x+.5, self.y+.5, 2, 3)
     end
 end
 

@@ -7,8 +7,8 @@ function Entity.filter(item, other)
     if other.isInstanceOf and other:isInstanceOf(Bullet) then -- is a bullet
         return false
     end
-    
-    if other.properties and other.properties.platform and item.y + item.h > other.y then 
+
+    if other.properties and other.properties.platform and item.y + item.h > other.y then
         return false
     end
 
@@ -36,9 +36,9 @@ end
 function Entity:movementUpdate(dt)
     local future_x = self.x + self.vx * dt
     local future_y = self.y + self.vy * dt
-  
+
     local next_x, next_y, cols = self.world:move(self, future_x, future_y, self.filter)
-  
+
     for _, col in ipairs(cols) do
         self:resolveCollision(col.other, col.normal.x, col.normal.y)
     end
@@ -62,7 +62,7 @@ function Entity:resolveCollision(nx, ny) -- default collision resolvement only s
 end
 
 function Entity:shotBy(bullet)
-    
+
 end
 
 return Entity

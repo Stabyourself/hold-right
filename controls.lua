@@ -4,7 +4,7 @@ return {
         right = {'key:d', 'axis:leftx+', 'button:dpright'},
         up = {'key:w', 'axis:lefty-', 'button:dpup'},
         down = {'key:s', 'axis:lefty+', 'button:dpdown'},
-        
+
         jump = {'key:k', 'button:a'},
         shoot = {'key:j', 'button:x'},
 

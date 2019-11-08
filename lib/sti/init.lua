@@ -858,7 +858,7 @@ function Map:drawTileLayer(layer)
 	end
 
 	assert(layer.type == "tilelayer", "Invalid layer type: " .. layer.type .. ". Layer must be of type: tilelayer")
-	
+
 	-- NOTE: This does not take into account any sort of draw range clipping and will always draw every chunk
 	if layer.chunks then
 		for _, chunk in ipairs(layer.chunks) do

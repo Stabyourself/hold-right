@@ -10,8 +10,8 @@ function Bullet.filter(item, other)
 end
 
 function Bullet:resolveCollision(other)
-    if other.shotBy then 
-        other:shotBy(item)
+    if other.shotBy then
+        other:shotBy(self)
     end
 
     self.delete = true -- remove bullet

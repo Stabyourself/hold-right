@@ -78,7 +78,7 @@ function Level:draw()
         love.graphics.setColor(1, 0, 0)
         love.graphics.push()
         love.graphics.translate(0.5, 0.5)
-        
+
         for _, item in ipairs(self.world:getItems()) do
             love.graphics.rectangle("line", self.world:getRect(item))
         end
@@ -89,7 +89,7 @@ function Level:draw()
 
     love.graphics.print("HUP!")
 
-    self.camera:detach()    
+    self.camera:detach()
 end
 
 function Level:makeBullet(owner, x, y, vx, vy)
